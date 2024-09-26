@@ -109,6 +109,17 @@ export const LoginForm = () => {
               Forgot Password?
             </a>
           </p>
+          <div className="flex items-center">
+          <p className="text-sm text-gray-600">
+            Admin :- admin@example.com
+          </p>
+          <p className="text-sm text-gray-600">
+            Teacher :- teacher@example.com
+          </p>
+          <p className="text-sm text-gray-600">
+          Student :- student@example.com
+          </p>
+          </div>
           <p className="mt-2 text-sm text-gray-600">
             Don't have an account?{" "}
             <a href="#" className="text-indigo-600 hover:underline">
