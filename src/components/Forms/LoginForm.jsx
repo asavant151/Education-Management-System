@@ -109,14 +109,14 @@ export const LoginForm = () => {
               Forgot Password?
             </a>
           </p>
-          <div className="flex items-center">
-          <p className="text-sm text-gray-600">
+          <div className="flex items-center flex-col">
+          <p className="text-sm text-gray-600 mt-4">
             Admin :- admin@example.com
           </p>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 mt-3">
             Teacher :- teacher@example.com
           </p>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-gray-600 mt-3 mb-4">
           Student :- student@example.com
           </p>
           </div>
