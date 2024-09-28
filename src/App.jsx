@@ -15,6 +15,7 @@ import { LoginForm } from "./components/Forms/LoginForm";
 import Layout from "./components/Layout/Layout";
 import AddTeacherForm from "./components/Forms/AddTeacherForm";
 import EnrollStudentForm from "./components/Forms/EnrollStudentForm";
+import NewAssignment from "./components/Forms/NewAssignment";
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { user } = useAuth();
@@ -39,10 +40,18 @@ const App = () => {
             }
           />
           <Route
-            path="/teacher"
+            path="/teacher/:teacherId"
             element={
-              <ProtectedRoute allowedRoles={["Teacher"]}>
+              <ProtectedRoute allowedRoles={["Teacher", "Admin"]}>
                 <TeacherDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/teachers/:teacherId/new-assignment"
+            element={
+              <ProtectedRoute allowedRoles={["Teacher", "Admin"]}>
+                <NewAssignment />
               </ProtectedRoute>
             }
           />
@@ -72,7 +81,7 @@ const App = () => {
             }
           />
 
-<Route
+          <Route
             path="/enroll-student"
             element={
               <ProtectedRoute allowedRoles={["Admin"]}>

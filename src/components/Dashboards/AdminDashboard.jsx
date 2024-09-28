@@ -41,6 +41,10 @@ export const AdminDashboard = () => {
     navigate('/add-teacher');
   }
 
+  const viewTeacherDashboard = (teacherId) => {
+    navigate(`/teacher/${teacherId}`);
+  };
+
   const handleEnrollNavigate = () => {
     navigate('/enroll-student');
   };
@@ -61,31 +65,35 @@ export const AdminDashboard = () => {
         <div className="mb-8">
           <h2 className="text-xl font-semibold mb-4">Manage Courses</h2>
           <button onClick={courseNavigate} className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 mb-4">Create New Course</button>
-          <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
-            <thead>
-              <tr className="bg-gray-50">
-                <th className="p-3 text-left">Course Title</th>
-                <th className="p-3 text-left">Start Date</th>
-                <th className="p-3 text-left">End Date</th>
-                <th className="p-3 text-left">Assigned Teacher</th>
-                <th className="p-3 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {courses.map((course) => (
-                <tr key={course.id} className="border-b">
-                  <td className="p-3">{course.title}</td>
-                  <td className="p-3">{new Date(course.startDate).toLocaleDateString()}</td>
-                  <td className="p-3">{new Date(course.endDate).toLocaleDateString()}</td>
-                  <td className="p-3">{course.assignedTeacher}</td>
-                  <td className="p-3 text-right">
-                    <button onClick={() => handleEdit(course)} className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 mr-2">Edit</button>
-                    <button onClick={() => openDeleteModal(course)} className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600">Delete</button>
-                  </td>
+          {courses.length === 0 ? (
+            <p className="text-gray-500">No courses available.</p>
+          ) : (
+            <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
+              <thead>
+                <tr className="bg-gray-50">
+                  <th className="p-3 text-left">Course Title</th>
+                  <th className="p-3 text-left">Start Date</th>
+                  <th className="p-3 text-left">End Date</th>
+                  <th className="p-3 text-left">Assigned Teacher</th>
+                  <th className="p-3 text-right">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {courses.map((course) => (
+                  <tr key={course.id} className="border-b">
+                    <td className="p-3">{course.title}</td>
+                    <td className="p-3">{new Date(course.startDate).toLocaleDateString()}</td>
+                    <td className="p-3">{new Date(course.endDate).toLocaleDateString()}</td>
+                    <td className="p-3">{course.assignedTeacher}</td>
+                    <td className="p-3 text-right">
+                      <button onClick={() => handleEdit(course)} className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 mr-2">Edit</button>
+                      <button onClick={() => openDeleteModal(course)} className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600">Delete</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
 
         {isEditModalOpen && (
@@ -104,54 +112,62 @@ export const AdminDashboard = () => {
         <div className="mb-8">
           <h2 className="text-xl font-semibold mb-4">Manage Students</h2>
           <button onClick={handleEnrollNavigate} className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 mb-4">Enroll New Student</button>
-          <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
-            <thead>
-              <tr className="bg-gray-50">
-                <th className="p-3 text-left">Student Name</th>
-                <th className="p-3 text-left">Enrolled Courses</th>
-                <th className="p-3 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {students.map((student) => (
-                <tr key={student.id} className="border-b">
-                  <td className="p-3">{student.name}</td>
-                  <td className="p-3">{student.enrolledCourses.join(', ')}</td>
-                  <td className="p-3 text-right">
-                    <button className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 mr-2">View</button>
-                    <button onClick={() => handleRemoveStudent(student.id)} className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600">Remove</button> {/* Remove student */}
-                  </td>
+          {students.length === 0 ? (
+            <p className="text-gray-500">No students enrolled.</p>
+          ) : (
+            <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
+              <thead>
+                <tr className="bg-gray-50">
+                  <th className="p-3 text-left">Student Name</th>
+                  <th className="p-3 text-left">Enrolled Courses</th>
+                  <th className="p-3 text-right">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {students.map((student) => (
+                  <tr key={student.id} className="border-b">
+                    <td className="p-3">{student.name}</td>
+                    <td className="p-3">{student.enrolledCourses.join(', ')}</td>
+                    <td className="p-3 text-right">
+                      <button className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 mr-2">View</button>
+                      <button onClick={() => handleRemoveStudent(student.id)} className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600">Remove</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
 
         {/* Teachers Section */}
         <div className="mb-8">
           <h2 className="text-xl font-semibold mb-4">Manage Teachers</h2>
           <button onClick={AddTeacherNavigate} className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 mb-4">Add New Teacher</button>
-          <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
-            <thead>
-              <tr className="bg-gray-50">
-                <th className="p-3 text-left">Teacher Name</th>
-                <th className="p-3 text-left">Assigned Courses</th>
-                <th className="p-3 text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {teachers.map((teacher, index) => (
-                <tr key={index} className="border-b">
-                  <td className="p-3">{teacher.name}</td>
-                  <td className="p-3">{teacher.assignedCourses.join(', ')}</td>
-                  <td className="p-3 text-right">
-                    <button className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 mr-2">View</button>
-                    <button onClick={() => handleRemoveTeacher(teacher.id)} className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600">Remove</button>
-                  </td>
+          {teachers.length === 0 ? (
+            <p className="text-gray-500">No teachers found.</p>
+          ) : (
+            <table className="min-w-full bg-white rounded-lg shadow overflow-hidden">
+              <thead>
+                <tr className="bg-gray-50">
+                  <th className="p-3 text-left">Teacher Name</th>
+                  <th className="p-3 text-left">Assigned Courses</th>
+                  <th className="p-3 text-right">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {teachers.map((teacher, index) => (
+                  <tr key={index} className="border-b">
+                    <td className="p-3">{teacher.name}</td>
+                    <td className="p-3">{teacher.assignedCourses.map(course => course.title).join(', ')}</td>
+                    <td className="p-3 text-right">
+                      <button onClick={() => viewTeacherDashboard(teacher.id)} className="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 mr-2">View</button>
+                      <button onClick={() => handleRemoveTeacher(teacher.id)} className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600">Remove</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </div>
